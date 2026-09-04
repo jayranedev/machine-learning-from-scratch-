@@ -1,56 +1,49 @@
 # Linear Regression From Scratch
 
-This project demonstrates simple linear regression without using a machine-learning framework. The notebook estimates a house's total price from its area in square feet using gradient descent implemented with NumPy.
+This project demonstrates simple linear regression without using a machine-learning framework. The current notebook predicts a student's final score from the number of hours studied using gradient descent implemented with NumPy.
 
 ## Project Structure
 
 ```text
 01-linear-regression/
 ├── data/
-│   └── House_Price_Data.csv
+│   ├── House_Price_Data.csv
+│   └── study_hours_scores_regression.csv
 ├── notebooks/
-│   └── linear_regression.ipynb
+│   ├── linear_regression.ipynb
+│   └── linear_regression_2.ipynb
 └── readme.md
 ```
 
-## Dataset
+## Current Dataset
 
-The dataset contains house listings with the following columns:
+The current notebook, `linear_regression_2.ipynb`, uses `study_hours_scores_regression.csv` with:
 
-- `bhk`: Number of bedrooms, halls, and kitchens
-- `propertytype`: Property type
-- `location`: Property location
-- `sqft`: Area in square feet
-- `pricepersqft`: Price per square foot
-- `totalprice`: Total property price in rupees
+- `Hours`: Study time in hours
+- `Scores`: Final score
 
-The notebook uses only `sqft` as the input feature and `totalprice` as the target. Prices are divided by `100000` so the target is represented in lakhs.
+The model uses `Hours` as the input feature and `Scores` as the target. The original house-price dataset remains in the `data/` directory for future experiments.
 
 ## Method
 
-The notebook walks through these steps:
+The current notebook walks through these steps:
 
-1. Load and inspect the CSV data with pandas.
-2. Visualize the relationship between house area and price.
-3. Remove observations with an area of `10,000` square feet or more, then keep observations below `4,500` square feet for the final model.
-4. Convert the selected columns to NumPy arrays.
-5. Standardize the area feature:
-
-	```python
-	x_scaled = (X - X.mean()) / X.std()
-	```
-
-6. Define the prediction function, squared-error cost function, and gradient calculation manually.
-7. Train the model with gradient descent using:
+1. Load and inspect the study-hours dataset with pandas.
+2. Convert the `Hours` and `Scores` columns to NumPy arrays.
+3. Visualize the data with a scatter plot.
+4. Plot an initial linear prediction alongside the observed scores.
+5. Define the prediction function, squared-error cost function, and gradient calculation manually.
+6. Train the model with gradient descent using:
 	- Initial parameters: `w = 0`, `b = 0`
 	- Learning rate: `0.01`
 	- Iterations: `10,000`
-8. Print the learned weight, bias, cost history, and parameter history.
+7. Stop early when the change in cost is below `1e-6`.
+8. Inspect sample values, feature and target means, and the correlation between study hours and scores.
 
 The model is:
 
 ```text
-prediction = w * standardized_sqft + b
+prediction = w * study_hours + b
 ```
 
 ## Requirements
@@ -69,9 +62,9 @@ pip install numpy pandas matplotlib jupyter
 
 ## Run the Notebook
 
-Open `notebooks/linear_regression.ipynb` in Jupyter or VS Code and run the cells from top to bottom. Because the CSV path is relative to the notebook, run the notebook with `notebooks/` as its working directory, as VS Code and Jupyter normally do.
+Open `notebooks/linear_regression_2.ipynb` in Jupyter or VS Code and run the cells from top to bottom. Because the CSV path is relative to the notebook, run the notebook with `notebooks/` as its working directory, as VS Code and Jupyter normally do.
 
-The notebook produces scatter plots before and after filtering and prints the model parameters found by gradient descent.
+The notebook produces scatter plots, prints optimization progress, reports the learned parameters, and displays basic correlation information.
 
 ## Learning Goals
 
@@ -81,8 +74,9 @@ This exercise focuses on the mechanics behind linear regression:
 - Measuring prediction error with squared-error cost
 - Computing gradients for the weight and bias
 - Updating parameters with gradient descent
-- Improving optimization stability through feature scaling
+- Comparing predictions with observed values
+- Using a stopping tolerance to end optimization early
 
 ## Notes
 
-This is an educational, single-feature model. It does not split the data into training and test sets and does not use the other available dataset columns, so its results should not be treated as a production house-price estimator.
+This is an educational, single-feature model. It does not split the data into training and test sets, and it does not include model validation or regularization. The notebook notes a possible future transition to a Years of Experience versus Salary dataset, but that model has not been added yet.
